@@ -5,6 +5,8 @@ This simple application is made in ReactJs in which we can create a user using f
 
 In this application, the following concepts are reflected.
 
+- react portals
+- react fragments
 - react in build "Css modules"
 - Events Listening & Working with Event Handlers
 - Working with "State"

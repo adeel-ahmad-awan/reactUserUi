@@ -1,24 +1,47 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Button from "./Button";
 import Card from "./Card";
 import styles from "./ErrorModal.module.css";
 
+// idealy these components should be  separate components, but in our project we are using both components linked together
+
+const BackDrop = (props) => {
+  return <div className={styles.backdrop} onClick={props.onConfirm} />;
+};
+
+const ModelOverlay = (props) => {
+  return (
+    <Card className={styles.modal}>
+      <header className={styles.header}>
+        <h2>{props.title}</h2>
+      </header>
+      <div className={styles.content}>
+        <p>{props.message}</p>
+      </div>
+      <footer className={styles.actions}>
+        <Button onClick={props.onConfirm}>ok</Button>
+      </footer>
+    </Card>
+  );
+};
+
 function ErrorModal(props) {
   return (
-    <div>
-      <div className={styles.backdrop} onClick={props.onConfirm} />
-      <Card className={styles.modal}>
-        <header className={styles.header}>
-          <h2>{props.title}</h2>
-        </header>
-        <div className={styles.content}>
-          <p>{props.message}</p>
-        </div>
-        <footer className={styles.actions}>
-          <Button onClick={props.onConfirm}>ok</Button>
-        </footer>
-      </Card>
-    </div>
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <BackDrop onConfirm={props.onConfirm} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ModelOverlay
+          title={props.title}
+          message={props.message}
+          onConfirm={props.onConfirm}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </React.Fragment>
   );
 }
 
